@@ -33,61 +33,13 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+const usersRouter = require('./routes/users')
+app.use('/users', usersRouter)
+
 app.get('/', (req: Request, res: Response) => {
     res.render('home');
 });
 
-app.get('/login', checkNotAuthenticated, (req: Request, res: Response) => {
-
-    res.render('login');
-});
-
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect : '/profile',
-    failureRedirect : '/login',
-    failureFlash : { type: 'error', message: 'Invalid username or password.' }
-}));
-
-app.get('/register', checkNotAuthenticated, (req: Request, res: Response) => {
-
-    res.render('register');
-});
-
-app.post('/register', checkNotAuthenticated, (req, res) => {
-    User.register(new User({ username : req.body.username , email : req.body.email}), req.body.password, (err, account) => {
-        if (err) {
-            return res.render('register', { account : account });
-        }
-
-        passport.authenticate('local')(req, res, () => {
-          res.redirect('/');
-        });
-    });
-  });
-
-
-app.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-
-app.get('/profile', checkAuthenticated, (req, res) => {
-    res.render('profile', {user : req.user.username})
-});
-
-function checkAuthenticated(req: Request, res: Response, next) {
-    if (req.isAuthenticated()) {
-        return next()
-    }
-    res.redirect('/login')
-}
-
-function checkNotAuthenticated(req: Request, res: Response, next) {
-    if (req.isAuthenticated()) {
-        res.redirect('/')
-    }
-    next()
-}
 
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
