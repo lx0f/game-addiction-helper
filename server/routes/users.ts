@@ -1,6 +1,5 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
-
-const User = require('../userSchema')
+import User from '../userSchema';
 const passport = require('passport');
 const users = express.Router()
 
@@ -12,8 +11,7 @@ users.get('/login', checkNotAuthenticated, (req: Request, res: Response) => {
 
 users.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect : '/users/profile',
-    failureRedirect : '/users/login',
-    failureFlash : { type: 'error', message: 'Invalid username or password.' }
+    failureRedirect : '/users/login'
 }));
 
 users.get('/register', checkNotAuthenticated, (req: Request, res: Response) => {
@@ -22,13 +20,13 @@ users.get('/register', checkNotAuthenticated, (req: Request, res: Response) => {
 });
 
 users.post('/register', checkNotAuthenticated, (req: Request, res: Response) => {
-    User.register(new User({ username : req.body.username , email : req.body.email}), req.body.password, (err: Error) => {
+    User.register(new User({ username : req.body.username}), req.body.password, (err: Error) => {
         if (err) {
             return res.render('register');
         }
 
         passport.authenticate('local')(req, res, () => {
-          res.redirect('/');
+          res.redirect('/users/profile');
         });
     });
   });
@@ -41,7 +39,7 @@ users.post('/logout', function(req: Request, res: Response, next) {
 });
 
 users.get('/profile', checkAuthenticated, (req: Request, res: Response) => {
-    res.render('profile', {user : req.user!.username});
+    res.render('profile', {username : req.user!.username});
 });
 
 function checkAuthenticated(req: Request, res: Response, next: NextFunction) {

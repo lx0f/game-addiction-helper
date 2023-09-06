@@ -1,19 +1,19 @@
 import express, { Express, Request, Response } from 'express';
+import { connect } from 'mongoose';
+import passport from 'passport';
+import session from "express-session";
+import { Strategy as LocalStrategy } from "passport-local";
+import User from './userSchema';
 import { engine } from 'express-handlebars';
 
 const port = 3000; // TODO get from .env file
 
 const app: Express = express();
-const mongoose = require('mongoose')
-const User = require('./userSchema')
-const passport = require('passport');
-const session = require('express-session')
-const LocalStrategy = require('passport-local').Strategy;
 
 require('dotenv').config();
 
 // TODO: Change mongodb database
-mongoose.connect(`mongodb+srv://admin20:${process.env.MONGODB_PASSWORD}@cluster0.vg83txc.mongodb.net/?retryWrites=true&w=majority`)
+connect(`${process.env.MONGODB_URI}`)
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
@@ -21,8 +21,13 @@ app.set('views', './server/views');
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
+if (process.env.SESSION_SECRET === undefined) {
+    throw new Error('env variable "SESSION_SECRET" cannot be undefined.');
+  }
 app.use(session({
     secret : process.env.SESSION_SECRET,
+    //                   ^^^^^^^^^^^^^^ 
+    //             type is string | undefined
     resave : false,
     saveUninitialized : false
 }));
