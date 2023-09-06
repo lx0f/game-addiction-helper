@@ -25,10 +25,6 @@ router.get('/', (req: Request, res: Response) => {
 router.get('/:slug', (req: Request, res: Response) => {
     const { slug } = req.params;
 
-    if (_.isUndefined(slug)) {
-        return res.redirect('/404');
-    }
-
     // find file that matches the slug
     const articlePath = path.join(ARTICLE_DIR, `${slug}.md`);
 
