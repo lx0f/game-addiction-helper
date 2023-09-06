@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 
 const User = require('../userSchema')
 const passport = require('passport');
@@ -22,9 +22,9 @@ users.get('/register', checkNotAuthenticated, (req: Request, res: Response) => {
 });
 
 users.post('/register', checkNotAuthenticated, (req: Request, res: Response) => {
-    User.register(new User({ username : req.body.username , email : req.body.email}), req.body.password, (err, account) => {
+    User.register(new User({ username : req.body.username , email : req.body.email}), req.body.password, (err: Error) => {
         if (err) {
-            return res.render('register', { account : account });
+            return res.render('register');
         }
 
         passport.authenticate('local')(req, res, () => {
@@ -41,21 +41,21 @@ users.post('/logout', function(req: Request, res: Response, next) {
 });
 
 users.get('/profile', checkAuthenticated, (req: Request, res: Response) => {
-    res.render('profile', {user : req.user.username})
+    res.render('profile', {user : req.user!.username});
 });
 
-function checkAuthenticated(req: Request, res: Response, next) {
+function checkAuthenticated(req: Request, res: Response, next: NextFunction) {
     if (req.isAuthenticated()) {
-        return next()
+        return next();
     }
-    res.redirect('/users/login')
-}
+    res.redirect('/users/login');
+};
 
-function checkNotAuthenticated(req: Request, res: Response, next) {
+function checkNotAuthenticated(req: Request, res: Response, next: NextFunction) {
     if (req.isAuthenticated()) {
-        res.redirect('/')
-    }
-    next()
-}
+        res.redirect('/');
+    };
+    next();
+};
 
 module.exports = users
