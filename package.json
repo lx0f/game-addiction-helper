@@ -2,12 +2,12 @@
     "name": "game-addiction-helper",
     "version": "1.0.0",
     "description": "",
-    "main": "server/index.js",
+    "main": "dist/index.js",
     "scripts": {
         "build": "npx tsc",
         "start": "node dist/index.js",
         "dev": "npm run sync && concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-        "sync": "rm -rf dist/articles && mkdir -p dist/articles && cp server/articles/* dist/articles/"
+        "sync": "rm -rf dist/blogs && mkdir -p dist/blogs && cp server/blogs/* dist/blogs/"
     },
     "keywords": [],
     "author": "",
