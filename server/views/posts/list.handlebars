@@ -1,0 +1,11 @@
+<h1>Posts</h1>
+<div>Page: {{page}} / {{totalPages}} </div>
+<ul>
+    {{#each posts}}
+        <li>
+            <div><strong>{{this.title}}</strong></div>
+            <div><p>{{this.body}}</p></div>
+            <div><small>{{this.createdAt}} | {{this.authorUsername}}</small></div>
+        </li>
+    {{/each}}
+</ul>
