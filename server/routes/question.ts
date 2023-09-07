@@ -34,7 +34,7 @@ router.post('/', (req:Request, res:Response) => { //questionnaire submission
     //q1 Does gaming get in the way
     //q2 Performance
     //add questions here when necessary
-    async function getAllQuestions(req: Request, res:Response)
+    async function getCalc(req: Request, res:Response)
     {
         try{
             const result = await Question.find({}).lean()
@@ -80,7 +80,7 @@ router.post('/', (req:Request, res:Response) => { //questionnaire submission
             res.status(500).send("Internal Server Error")
         }
     }
-    getAllQuestions(req,res)
+    getCalc(req,res)
     //res.render('question/question_answers_test',{q1: answer_one, q2: answer_two})
 })
 
