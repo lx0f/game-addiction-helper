@@ -1,16 +1,12 @@
 <h1>Log Analysis</h1>
+<hr>
 
-<div>
-    <div>Duration played this week</div>
-    <h3>{{weekDuration}}</h3>
-</div>
-
-<table>
+<table class="table">
     <thead>
-    <td>
-        <th>Duration</th>
-        <th>Created at</th>
-    </td>
+    <tr>
+        <th scope="col">Duration</th>
+        <th scope="col">Created at</th>
+    </tr>
     </thead>
     <tbody>
         {{#each logs}}
