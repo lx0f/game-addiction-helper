@@ -5,7 +5,7 @@ import Question from "../schema/question"
 const router = express.Router()
 
 router.get('/index', (req: Request, res: Response) => {
-    res.render('question/index');
+    res.send("test")
 });
 
 router.get('/questionnaire', (req: Request, res: Response) => {
@@ -109,7 +109,7 @@ router.post('/add', (req:Request, res:Response) => {
                 answers: answerArray
             })
             question.save().then((result: any) => {
-                res.redirect('question/questionnaire')
+                res.redirect('questionnaire')
             }).catch((err: any) => {
                 console.log(err)
             })
@@ -120,5 +120,14 @@ router.post('/add', (req:Request, res:Response) => {
     }
     getAllQuestions(req,res)
 })
+
+router.get("/blogs", (req, res) => {
+    res.send("tet")
+})
+
+router.post("/blogs", (req: Request,res:Response) => {
+    res.send("passed")
+})      
+
 
 export default router;
