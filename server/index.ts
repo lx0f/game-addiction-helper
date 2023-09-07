@@ -11,6 +11,7 @@ import User from './schema/user';
 import {
     blogsRouter,
     errorsRouter,
+    trackerRouter,
     usersRouter
 } from "./routes";
 import { getEnvConfig } from './lib/config';
@@ -49,6 +50,7 @@ passport.deserializeUser(User.deserializeUser());
 // Register routes
 app.use('/users', usersRouter);
 app.use('/blogs', blogsRouter);
+app.use('/tracker', trackerRouter);
 app.use('/', errorsRouter);
 app.get('/', (req: Request, res: Response) => {
     res.render('home');

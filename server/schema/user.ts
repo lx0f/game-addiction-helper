@@ -3,7 +3,9 @@ import passportLocalMongoose from "passport-local-mongoose";
 
 const userSchema = new Schema({
     username : String,
-    password : String
+    password : String,
+    gaming_duration_limit_ms: Number,
+    coins: Number,
 });
 
 userSchema.plugin(passportLocalMongoose);

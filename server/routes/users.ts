@@ -2,6 +2,7 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 
 import User from '../schema/user';
+import { checkAuthenticated, checkNotAuthenticated } from './middleware';
 
 const router = express.Router()
 
@@ -40,19 +41,5 @@ router.post('/logout', function(req: Request, res: Response, next) {
 router.get('/profile', checkAuthenticated, (req: Request, res: Response) => {
     res.render('profile', {username : req.user!.username});
 });
-
-function checkAuthenticated(req: Request, res: Response, next: NextFunction) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/users/login');
-};
-
-function checkNotAuthenticated(req: Request, res: Response, next: NextFunction) {
-    if (req.isAuthenticated()) {
-        res.redirect('/');
-    };
-    next();
-};
 
 export default router;
