@@ -3,11 +3,7 @@ import passportLocalMongoose from "passport-local-mongoose";
 
 const userSchema = new Schema({
     username : String,
-    password : String,
-    gaming_duration_limit_ms: Number,
-    coins: Number,
-    claimed_coins_today: String,
-    claimed_coins_date: Date
+    password : String
 });
 
 userSchema.plugin(passportLocalMongoose);
