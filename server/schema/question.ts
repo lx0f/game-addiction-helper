@@ -1,5 +1,4 @@
-const mongoose = require("mongoose")
-const Schema = mongoose.Schema
+import { Schema, model } from "mongoose"
 
 const questionSchema = new Schema({
     id: {
@@ -15,6 +14,6 @@ const questionSchema = new Schema({
     }
 }, {timestamps: true})
 
-const Question = mongoose.model("Questions", questionSchema)
+const Question = model("Questions", questionSchema)
 
-module.exports = Question
+export default Question;

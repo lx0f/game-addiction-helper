@@ -1,16 +1,8 @@
-import { error } from 'console';
 import express, {Request, Response } from 'express';
 
+import Question from "../schema/question"
 
-//const express = require("express")
 const router = express.Router()
-
-const mongoose = require("mongoose")
-const Question = require("../models/questionnaire")
-
-// router.get('/', (req:Request, res:Response) =>{
-//     res.send("test")
-// })
 
 router.get('/index', (req: Request, res: Response) => {
     res.render('question/index');
@@ -33,12 +25,6 @@ router.get('/questionnaire', (req: Request, res: Response) => {
     }
 
     getAllQuestions(req,res)
-    // Question.find().then((result: object) => {
-    //     console.log(typeof result)
-    //     res.render("question/questionnaire", {questions: result})
-    // }).catch((err: any) =>{
-    //     console.log(err)
-    // })
 });
 
 router.post('/', (req:Request, res:Response) => { //questionnaire submission
@@ -144,7 +130,4 @@ router.post('/add', (req:Request, res:Response) => {
     //res.send(req.body.NumberOfQuestions)
 })
 
-
-
-
-module.exports = router
+export default router;
