@@ -12,7 +12,8 @@ import {
     blogsRouter,
     errorsRouter,
     trackerRouter,
-    usersRouter
+    usersRouter,
+    questionRouter,
 } from "./routes";
 import { getEnvConfig } from './lib/config';
 
@@ -29,6 +30,7 @@ connect(config.MONGODB_URI)
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', VIEWS_DIR);
+
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
@@ -51,6 +53,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use('/users', usersRouter);
 app.use('/blogs', blogsRouter);
 app.use('/tracker', trackerRouter);
+app.use('/question', questionRouter);
 app.use('/', errorsRouter);
 app.get('/', (req: Request, res: Response) => {
     res.render('home');
