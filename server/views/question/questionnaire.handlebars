@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Are you addicted?</h2>
+    {{!-- {{#each q1}}
+    <li>{{this}}</li> //loop through q1
+    {{/each}} --}}
+    
+<div id="question-card" class="container">
+    <form action="/question" method="post">
+    <h2>Questions</h2>
+    
+    
+     {{#each questions}}
+     <div class="question">
+        <strong>{{this.question}}</strong> <br>
+        {{#each this.answers}}
+        <div>
+        <input type="radio" name="{{../id}}" value={{this}} required>
+        <label>{{this}}</label><br>
+        </div>
+        {{/each}}
+        </div>
+        {{/each}}
+
+        
+      
+   
+    {{!-- <strong>2. Does gaming get in the way of other tasks?</strong>
+    <div class="question">
+        
+        {{#each q2}}
+        <div>
+        <input type="radio" name="qTwo" value={{this}} required>
+        <label>{{this}}</label><br>
+        </div>
+        
+        {{/each}}
+        
+    </div> --}}
+    <button type="submit">Submit</button>
+</div>
+</form>
+</body>
+</html>
+
+<style>
+h2{
+    text-align: center;
+}
+.container{
+    display: inline-block;
+    margin-top: 10px;
+    padding-bottom: 15px;
+    margin-left: 25%;
+}
+.question{
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+html, body {
+min-height: 100%;
+padding: 0;
+margin: 0;
+font-family: Roboto, Arial, sans-serif;
+font-size: 14px;
+color: #666;
+}
+h1 {
+margin: 0 0 20px;
+font-weight: 400;
+color: #1c87c9;
+}
+p {
+margin: 0 0 5px;
+}
+.main-block {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background: #1c87c9;
+}
+form {
+padding: 25px;
+margin: 25px;
+box-shadow: 0 2px 5px #f5f5f5; 
+background: #f5f5f5; 
+}
+.fas {
+margin: 25px 10px 0;
+font-size: 72px;
+color: #fff;
+}
+.fa-envelope {
+transform: rotate(-20deg);
+}
+.fa-at , .fa-mail-bulk{
+transform: rotate(10deg);
+}
+
+input::placeholder {
+color: #666;
+}
+button {
+width: 100%;
+padding: 10px;
+border: none;
+background: #1c87c9; 
+font-size: 16px;
+font-weight: 400;
+color: #fff;
+}
+button:hover {
+background: #2371a0;
+} 
+@media (min-width: 568px) {
+.main-block {
+flex-direction: row;
+}
+.left-part, form {
+width: 50%;
+}
+.fa-envelope {
+margin-top: 0;
+margin-left: 20%;
+}
+.fa-at {
+margin-top: -10%;
+margin-left: 65%;
+}
+.fa-mail-bulk {
+margin-top: 2%;
+margin-left: 28%;
+}
+}
+</style>
