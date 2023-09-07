@@ -17,7 +17,7 @@ router.get('/list/:page', async (req: Request, res: Response) => {
     const getPostResult = await postService.getPosts(page)
     const nextPage = page < getPostResult.totalPages ? page + 1 : undefined;
     const prevPage = page > 1 ? page - 1 : undefined;
-    return res.render('posts/list', { ...getPostResult, nextPage, prevPage })
+    // return res.render('posts/list', { ...getPostResult, nextPage, prevPage })
 });
 
 // TODO integrate with user system
