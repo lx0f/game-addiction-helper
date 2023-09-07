@@ -12,8 +12,8 @@ import {
     blogsRouter,
     errorsRouter,
     usersRouter,
+    postsRouter
 } from "./routes";
-import postsRouter from './routes/posts'
 import { getEnvConfig } from './lib/config';
 
 const config = getEnvConfig();
@@ -24,9 +24,6 @@ const app: Express = express();
 app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 require('dotenv').config();
-
-// TODO: Change mongodb database
-// connect(`${process.env.MONGODB_URI}`)
 
 // TODO: Change mongodb database
 connect(config.MONGODB_URI)
@@ -56,16 +53,13 @@ passport.deserializeUser(User.deserializeUser());
 // Register routes
 app.use('/users', usersRouter);
 app.use('/blogs', blogsRouter);
-app.use('/', errorsRouter);
-// const Mongoose = require("mongoose")
-
 app.use("/posts", postsRouter)
+app.use('/', errorsRouter);
 
-const handlebar = require("handlebars");
-handlebar.registerHelper('ifEquals', function (arg1:any, arg2:any, options:any) {
-    return (arg1 == arg2) ? options.fn() : options.inverse();
-});
-
+// const handlebar = require("handlebars");
+// handlebar.registerHelper('ifEquals', function (arg1:any, arg2:any, options:any) {
+//     return (arg1 == arg2) ? options.fn() : options.inverse();
+// });
 
 app.get('/', (req: Request, res: Response) => {
     res.render('home');

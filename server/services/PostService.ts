@@ -1,6 +1,5 @@
-import { List } from "lodash";
 import SimpleCache from "../lib/SimpleCache";
-import Post, { IPost } from "../models/post";
+import Post, { IPost } from "../schema/post";
 
 const POSTS_PER_PAGE = 5;
 const CREATE_TTL = 60 * 1000 // 1 minute
@@ -46,9 +45,6 @@ class PostService implements IPostService {
         
         
     }
-
-        
-    
     
     async getPosts(page: number = 1): Promise<GetPostResult> {
         const totalPosts = await Post.count();

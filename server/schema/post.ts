@@ -1,4 +1,3 @@
-import { List } from "lodash";
 import { Schema, model } from "mongoose";
 
 export interface IPost {
@@ -6,9 +5,6 @@ export interface IPost {
     body: string,
     authorUsername: string,
     createdAt: Date,
-    // comments: Array<String>,
-    votes: number,
-
 }
 
 const postSchema = new Schema<IPost>({
@@ -16,8 +12,6 @@ const postSchema = new Schema<IPost>({
     body: String,
     authorUsername: String,
     createdAt: Date,
-    // comments: Array<String>,
-    votes: Number,
 });
 
 const Post = model<IPost>("Post", postSchema);
