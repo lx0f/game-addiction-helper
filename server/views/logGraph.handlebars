@@ -1,0 +1,22 @@
+<h1>Log Analysis</h1>
+<hr>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Duration</th>
+        <th scope="col">Created at</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each logs}}
+        <tr>
+            {{!-- this is assuming duration and created at follows this data structure --}}
+            {{!-- e.g. duration: string = "1 Hour, 56 Minutes" --}}
+            {{!-- e.g. createdAt: string = "12/05/2023 12:00:00" --}}
+            <th>{{this.gamingDurationMs}} Hour</th>
+            <th>{{this.createdAt}}</th>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

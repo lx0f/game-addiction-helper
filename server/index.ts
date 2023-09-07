@@ -11,6 +11,7 @@ import User from './schema/user';
 import {
     blogsRouter,
     errorsRouter,
+    trackerRouter,
     usersRouter,
     questionRouter,
 } from "./routes";
@@ -51,6 +52,7 @@ passport.deserializeUser(User.deserializeUser());
 // Register routes
 app.use('/users', usersRouter);
 app.use('/blogs', blogsRouter);
+app.use('/tracker', trackerRouter);
 app.use('/question', questionRouter);
 app.use('/', errorsRouter);
 app.get('/', (req: Request, res: Response) => {
