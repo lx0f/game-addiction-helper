@@ -1,5 +1,11 @@
 <h1>Log Form</h1>
 
 <form action="/tracker/log" method="post">
-    
+    <div class="form-group mb-3">
+        <label>Number of hours played today: </label>
+        <input type="number" class="form-control" placeholder="hours" name="gaminghours" required>
+        <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-primary form-control">Submit</button>
+        </div>
+    </div>
 </form>

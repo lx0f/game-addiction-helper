@@ -6,6 +6,8 @@ const userSchema = new Schema({
     password : String,
     gaming_duration_limit_ms: Number,
     coins: Number,
+    claimed_coins_today: String,
+    claimed_coins_date: Date
 });
 
 userSchema.plugin(passportLocalMongoose);

@@ -20,7 +20,7 @@ router.get('/register', checkNotAuthenticated, (req: Request, res: Response) => 
 });
 
 router.post('/register', checkNotAuthenticated, (req: Request, res: Response) => {
-    User.register(new User({ username : req.body.username}), req.body.password, (err: Error) => {
+    User.register(new User({ username : req.body.username, coins : 0, claimed_coins_today : 'no'}), req.body.password, (err: Error) => {
         if (err) {
             return res.render('register');
         }
