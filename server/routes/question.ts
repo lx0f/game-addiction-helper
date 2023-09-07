@@ -10,9 +10,6 @@ router.get('/index', (req: Request, res: Response) => {
 
 router.get('/questionnaire', (req: Request, res: Response) => {
     //pass questions here pls so can use as label and value and because backend gaming
-    // const questionOne = ["Less than 5 hours","5-8 hours","More than 8 hours"]
-    // const questionTwo = ["Yes", "No","Sometimes","Rarely"]
-    // res.render('question/questionnaire',{q1: questionOne, q2: questionTwo});
     async function getAllQuestions(req: Request, res:Response)
     {
         try{
@@ -66,7 +63,6 @@ router.post('/', (req:Request, res:Response) => { //questionnaire submission
             {
                 weightage -= 30
             }
-            //res.render("question/questionnaire", { questions: result });
             var addiction = "Pending Addiction Status"
             if (weightage > 20)
             {
@@ -81,7 +77,6 @@ router.post('/', (req:Request, res:Response) => { //questionnaire submission
         }
     }
     getCalc(req,res)
-    //res.render('question/question_answers_test',{q1: answer_one, q2: answer_two})
 })
 
 router.get('/add', (req:Request, res:Response) => {
@@ -93,12 +88,10 @@ router.post('/add', (req:Request, res:Response) => {
     //currently posting test data
     //add logic to consolidate all answers into an array before passing to mongodb
     const NumberOfAnswers = req.body.NumberOfAnswers;
-    //console.log(NumberOfQuestions)
     const answerArray: any[] = [];
     for(let i = 1; i <= NumberOfAnswers; i++)
     {
         answerArray.push(req.body["answer" + i])
-        //console.log(i + "answer:" + req.body["answer" + i])
     }
 
     async function getAllQuestions(req: Request, res:Response)
@@ -110,7 +103,6 @@ router.post('/add', (req:Request, res:Response) => {
             {
                 count++
             }
-            //res.render("question/questionnaire", { questions: result });
             const question = new Question({
                 id: "q"+count,
                 question: req.body.question,
@@ -127,7 +119,6 @@ router.post('/add', (req:Request, res:Response) => {
         }
     }
     getAllQuestions(req,res)
-    //res.send(req.body.NumberOfQuestions)
 })
 
 export default router;
