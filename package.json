@@ -8,9 +8,10 @@
         "start": "node dist/index.js",
         "start:watch": "nodemon --delay 1000ms dist/index.js",
         "dev": "concurrently \"npx tsc --watch\" \"npm run sync && npm run start:watch\"",
-        "sync": "concurrently \"npm run sync:blogs\" \"npm run sync:views\"",
+        "sync": "concurrently \"npm run sync:blogs\" \"npm run sync:views\" \"npm run sync:questions\"",
         "sync:blogs": "rm -rf dist/blogs && mkdir -p dist/blogs && cp server/blogs/* dist/blogs/",
-        "sync:views": "rm -rf dist/views && mkdir -p dist/views && cp -r server/views/* dist/views/"
+        "sync:views": "rm -rf dist/views && mkdir -p dist/views && cp -r server/views/* dist/views/",
+        "sync:questions": "ts-node server/scripts/initQuestions.ts"
     },
     "keywords": [],
     "author": "",
@@ -40,6 +41,7 @@
         "concurrently": "^8.2.1",
         "eslint": "^8.48.0",
         "nodemon": "^3.0.1",
+        "ts-node": "^10.9.1",
         "typescript": "^5.2.2"
     }
 }
