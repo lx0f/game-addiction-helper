@@ -1,25 +1,24 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
-import User from '../userSchema';
-const passport = require('passport');
-const users = express.Router()
+import passport from 'passport';
 
+import User from '../schema/user';
 
-users.get('/login', checkNotAuthenticated, (req: Request, res: Response) => {
+const router = express.Router()
 
+router.get('/login', checkNotAuthenticated, (req: Request, res: Response) => {
     res.render('login');
 });
 
-users.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect : '/users/profile',
     failureRedirect : '/users/login'
 }));
 
-users.get('/register', checkNotAuthenticated, (req: Request, res: Response) => {
-
+router.get('/register', checkNotAuthenticated, (req: Request, res: Response) => {
     res.render('register');
 });
 
-users.post('/register', checkNotAuthenticated, (req: Request, res: Response) => {
+router.post('/register', checkNotAuthenticated, (req: Request, res: Response) => {
     User.register(new User({ username : req.body.username}), req.body.password, (err: Error) => {
         if (err) {
             return res.render('register');
@@ -31,14 +30,14 @@ users.post('/register', checkNotAuthenticated, (req: Request, res: Response) => 
     });
   });
 
-users.post('/logout', function(req: Request, res: Response, next) {
-  req.logout(function(err) {
-    if (err) { return next(err); }
-    res.redirect('/');
-  });
+router.post('/logout', function(req: Request, res: Response, next) {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+    });
 });
 
-users.get('/profile', checkAuthenticated, (req: Request, res: Response) => {
+router.get('/profile', checkAuthenticated, (req: Request, res: Response) => {
     res.render('profile', {username : req.user!.username});
 });
 
@@ -56,4 +55,4 @@ function checkNotAuthenticated(req: Request, res: Response, next: NextFunction) 
     next();
 };
 
-module.exports = users
+export default router;

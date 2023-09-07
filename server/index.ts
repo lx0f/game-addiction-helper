@@ -1,52 +1,58 @@
 import express, { Express, Request, Response } from 'express';
-import { connect } from 'mongoose';
-import passport from 'passport';
-import session from "express-session";
-import { Strategy as LocalStrategy } from "passport-local";
-import User from './userSchema';
 import { engine } from 'express-handlebars';
+import session from "express-session";
+import passport from 'passport';
+import { Strategy as LocalStrategy } from "passport-local";
+import { connect } from 'mongoose';
+import _ from "lodash";
 
-const port = 3000; // TODO get from .env file
+import User from './schema/user';
+import {
+    blogsRouter,
+    errorsRouter,
+    usersRouter
+} from "./routes";
+import { getEnvConfig } from './lib/config';
+
+const config = getEnvConfig();
 
 const app: Express = express();
 
-require('dotenv').config();
-
 // TODO: Change mongodb database
-connect(`${process.env.MONGODB_URI}`)
+connect(config.MONGODB_URI)
 
+// Setup templating engine
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './server/views');
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
-if (process.env.SESSION_SECRET === undefined) {
-    throw new Error('env variable "SESSION_SECRET" cannot be undefined.');
-  }
+
+// Setup session
 app.use(session({
-    secret : process.env.SESSION_SECRET,
-    //                   ^^^^^^^^^^^^^^ 
-    //             type is string | undefined
-    resave : false,
-    saveUninitialized : false
+    secret: config.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
 }));
 
+// Setup passport
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-const usersRouter = require('./routes/users')
-app.use('/users', usersRouter)
-
+// Register routes
+app.use('/users', usersRouter);
+app.use('/blogs', blogsRouter);
+app.use('/', errorsRouter);
 app.get('/', (req: Request, res: Response) => {
     res.render('home');
 });
 
-
-app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
+// Run server
+app.listen(config.PORT, () => {
+    console.log(`[server]: Server is running at http://localhost:${config.PORT}`);
 });
 
