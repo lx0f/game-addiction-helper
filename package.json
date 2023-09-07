@@ -6,8 +6,11 @@
     "scripts": {
         "build": "npx tsc",
         "start": "node dist/index.js",
-        "dev": "npm run sync && concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-        "sync": "rm -rf dist/blogs && mkdir -p dist/blogs && cp server/blogs/* dist/blogs/"
+        "start:watch": "nodemon --delay 1000ms dist/index.js",
+        "dev": "concurrently \"npx tsc --watch\" \"npm run sync && npm run start:watch\"",
+        "sync": "concurrently \"npm run sync:blogs\" \"npm run sync:views\"",
+        "sync:blogs": "rm -rf dist/blogs && mkdir -p dist/blogs && cp server/blogs/* dist/blogs/",
+        "sync:views": "rm -rf dist/views && mkdir -p dist/views && cp -r server/views/* dist/views/"
     },
     "keywords": [],
     "author": "",

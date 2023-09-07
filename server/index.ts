@@ -4,6 +4,7 @@ import session from "express-session";
 import passport from 'passport';
 import { Strategy as LocalStrategy } from "passport-local";
 import { connect } from 'mongoose';
+import path from 'path';
 import _ from "lodash";
 
 import User from './schema/user';
@@ -16,6 +17,8 @@ import { getEnvConfig } from './lib/config';
 
 const config = getEnvConfig();
 
+const VIEWS_DIR = path.join(__dirname, 'views');
+
 const app: Express = express();
 
 // TODO: Change mongodb database
@@ -24,7 +27,7 @@ connect(config.MONGODB_URI)
 // Setup templating engine
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
-app.set('views', './server/views');
+app.set('views', VIEWS_DIR);
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
