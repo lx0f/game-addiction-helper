@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Are you addicted?</h2>
+    {{!-- {{#each q1}}
+    <li>{{this}}</li> //loop through q1
+    {{/each}} --}}
+    <form action="/question" method="post">
+<div id="question-card" class="container">
+    <h2>Questions</h2>
+    <strong>1. How long do you spend gaming every week?</strong> <br>
+    <div class="question">
+        
+        {{#each q1}}
+        <div>
+        <input type="radio" name="qOne" value={{this}} required>
+        <label>{{this}}</label><br>
+        </div>
+        {{/each}}
+       
+        
+    </div>
+    <strong>2. Does gaming get in the way of other tasks?</strong>
+    <div class="question">
+        
+        {{#each q2}}
+        <div>
+        <input type="radio" name="qTwo" value={{this}} required>
+        <label>{{this}}</label><br>
+        </div>
+        
+        {{/each}}
+        
+    </div>
+    <button type="submit">Submit</button>
+</div>
+</form>
+</body>
+</html>
+
+<style>
+h2{
+    text-align: center;
+}
+.container{
+    border: 2px solid black;
+    display: inline-block;
+    margin-top: 10px;
+    padding-bottom: 15px;
+    margin-left: 25%;
+}
+.question{
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+</style>
