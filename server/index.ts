@@ -12,7 +12,7 @@ import {
     blogsRouter,
     errorsRouter,
     usersRouter,
-    postsRouter
+    postsRouter,
     trackerRouter,
     questionRouter,
 } from "./routes";
@@ -23,9 +23,8 @@ const config = getEnvConfig();
 const VIEWS_DIR = path.join(__dirname, 'views');
 
 const app: Express = express();
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
-require('dotenv').config();
 
 // TODO: Change mongodb database
 connect(config.MONGODB_URI)
@@ -34,10 +33,6 @@ connect(config.MONGODB_URI)
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', VIEWS_DIR);
-
-
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
 
 // Setup session
 app.use(session({
