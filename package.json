@@ -8,12 +8,11 @@
         "start": "node dist/index.js",
         "start:watch": "nodemon --delay 1000ms dist/index.js",
         "dev": "concurrently \"npx tsc --watch\" \"npm run sync && npm run start:watch\"",
-
-        "sync": "concurrently \"npm run sync:blogs\" \"npm run sync:views\" \"npm run sync:questions\"",
+        "sync": "concurrently \"npm run sync:blogs\" \"npm run sync:views\" \"npm run sync:questions\" \"npm run sync:posts\"",
         "sync:blogs": "rm -rf dist/blogs && mkdir -p dist/blogs && cp server/blogs/* dist/blogs/",
         "sync:views": "rm -rf dist/views && mkdir -p dist/views && cp -r server/views/* dist/views/",
-        "sync:questions": "ts-node server/scripts/initQuestions.ts"
-
+        "sync:questions": "ts-node server/scripts/initQuestions.ts",
+        "sync:posts": "ts-node server/scripts/initPosts.ts"
     },
     "keywords": [],
     "author": "",
