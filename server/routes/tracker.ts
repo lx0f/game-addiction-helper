@@ -26,8 +26,15 @@ router.post('/log', checkAuthenticated, (req: Request, res: Response) => {
 router.get('/setlimit', checkAuthenticated, async (req: Request, res: Response) => {
     const filter = { username : req.user!.username }
     const currentUser = await  User.findOne(filter)
+    var gaming_duration_limit : String
 
-    return res.render('setLimit', { gaming_duration_limit_ms : currentUser?.gaming_duration_limit_ms });
+    if (currentUser?.gaming_duration_limit_ms) {
+        gaming_duration_limit = '' + currentUser?.gaming_duration_limit_ms
+    } else {
+        gaming_duration_limit = 'No limit set'
+    }
+
+    return res.render('setLimit', { gaming_duration_limit_ms :  gaming_duration_limit});
 });
 
 router.post('/setlimit', checkAuthenticated, async (req: Request, res: Response) => {
