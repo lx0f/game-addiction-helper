@@ -3,6 +3,7 @@ import { checkAuthenticated } from './middleware';
 
 import Log from "../schema/log";
 import User from "../schema/user";
+import _ from 'lodash';
 
 const router = express.Router();
 
@@ -43,13 +44,11 @@ router.post('/setlimit', checkAuthenticated, async (req: Request, res: Response)
     const update = { gaming_duration_limit_ms : req.body.gamingHourLimit }
     const currentUser = await  User.findOneAndUpdate(filter, update)
 
-    if (currentUser === null) {
-        console.log(currentUser)
-        return;
-    } else {
-        currentUser.save()
+    if (_.isNull(currentUser)) {
+        return res.redirect('/users/logout');
     }
-    
+
+    currentUser.save()
     return res.render('setLimit');
 });
 
@@ -65,19 +64,18 @@ router.post('/dailyreward', checkAuthenticated, async (req: Request, res: Respon
     const currentDateTime = new Date()
     const currentDate = new Date(currentDateTime.toDateString())
 
-    if (currentUser === null) {
-        console.log(currentUser)
-        return;
+    if (_.isNull(currentUser)) {
+        return res.redirect('/users/logout');
+    }
+    
+    if (formatDate(currentUser.claimed_coins_date) === formatDate(currentDate)) {
+        return res.redirect('nocoins')
+        
     } else {
-        if (formatDate(currentUser.claimed_coins_date) === formatDate(currentDate)) {
-            return res.redirect('nocoins')
-            
-        } else {
-            currentUser.coins = currentUser.coins + 10
-            currentUser.claimed_coins_date = currentDate
-            currentUser.save()
-            return res.redirect('dailyreward')
-        }
+        currentUser.coins = currentUser.coins + 10
+        currentUser.claimed_coins_date = currentDate
+        currentUser.save()
+        return res.redirect('dailyreward')
     }
     
 })
