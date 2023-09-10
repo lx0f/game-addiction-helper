@@ -26,6 +26,9 @@ router.get('/questionnaire', (req: Request, res: Response) => {
 
 router.post('/', (req:Request, res:Response) => { //questionnaire submission
     var weightage = 0
+    const addiction_result: string[] = []
+    //list of printables on result page, to be looped through
+
     //questions for algo
     //q0 how long spent
     //q1 Does gaming get in the way
@@ -35,33 +38,36 @@ router.post('/', (req:Request, res:Response) => { //questionnaire submission
     {
         try{
             const result = await Question.find({}).lean()
-            for(let i in result)
-            {
-                console.log(i)
-            }
+            
             //build algorithm here
             //q0
             if (req.body.q0 == "More") {
                 weightage +=50
+                addiction_result.push("More answered")
             } else if (req.body.q0 == "Less")
             {
                 weightage -=20
+                addiction_result.push("Less answered")
             }
-
+            
             //q1
             if (req.body.q1 == "Yes"){
                 weightage += 40
+                addiction_result.push("yes answered")
             } else if (req.body.q1 == "Sometimes")
             {
                 weightage +=20
+                addiction_result.push("Sometimes answered")
             }
 
             //q2
             if (req.body.q2 == "Poor" || req.body.q2 == "Disappointing"){
                 weightage += 50
+                addiction_result.push("Poor answered")
             } else if (req.body.q2 == "Excellent")
             {
                 weightage -= 30
+                addiction_result.push("Excellent answered")
             }
             var addiction = "Pending Addiction Status"
             if (weightage > 20)
@@ -70,7 +76,7 @@ router.post('/', (req:Request, res:Response) => { //questionnaire submission
             } else{
                 addiction = "Not addicted"
             }
-            res.render('question/result', {result: addiction})
+            res.render('question/result', {result: addiction, result_array: addiction_result})
         } catch (err){
             console.error(err)
             res.status(500).send("Internal Server Error")
@@ -119,6 +125,10 @@ router.post('/add', (req:Request, res:Response) => {
         }
     }
     getAllQuestions(req,res)
+})
+
+router.post("/blogs", (req,res) =>{
+    res.redirect("/blogs")
 })
 
 export default router;
