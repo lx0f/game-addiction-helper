@@ -18,6 +18,10 @@ class SimpleCache<T> {
     public get(key: string): T | undefined {
         return this.map.get(key);
     }
+
+    public has(key: string): boolean {
+        return this.map.has(key);
+    }
 }
 
 export default SimpleCache;

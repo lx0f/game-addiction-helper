@@ -7,11 +7,13 @@ import { connect } from 'mongoose';
 import path from 'path';
 import _ from "lodash";
 
-import User from './schema/user';
+import User, { IUser } from './schema/user';
 import {
     blogsRouter,
     errorsRouter,
     usersRouter,
+    postsRouter,
+    trackerRouter,
     questionRouter,
 } from "./routes";
 import { getEnvConfig } from './lib/config';
@@ -21,6 +23,8 @@ const config = getEnvConfig();
 const VIEWS_DIR = path.join(__dirname, 'views');
 
 const app: Express = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
 
 // TODO: Change mongodb database
 connect(config.MONGODB_URI)
@@ -29,10 +33,6 @@ connect(config.MONGODB_URI)
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', VIEWS_DIR);
-
-
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
 
 // Setup session
 app.use(session({
@@ -45,14 +45,22 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
+passport.serializeUser(User.serializeUser() as any); // FIXME don't use any
 passport.deserializeUser(User.deserializeUser());
 
 // Register routes
 app.use('/users', usersRouter);
 app.use('/blogs', blogsRouter);
+app.use("/posts", postsRouter)
+app.use('/tracker', trackerRouter);
 app.use('/question', questionRouter);
 app.use('/', errorsRouter);
+
+// const handlebar = require("handlebars");
+// handlebar.registerHelper('ifEquals', function (arg1:any, arg2:any, options:any) {
+//     return (arg1 == arg2) ? options.fn() : options.inverse();
+// });
+
 app.get('/', (req: Request, res: Response) => {
     res.render('home');
 });
