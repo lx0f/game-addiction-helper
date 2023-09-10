@@ -49,7 +49,7 @@ router.post('/setlimit', checkAuthenticated, async (req: Request, res: Response)
     }
 
     currentUser.save()
-    return res.render('setLimit');
+    return res.redirect('setLimit');
 });
 
 router.get('/dailyreward', checkAuthenticated, async (req: Request, res: Response) => {
