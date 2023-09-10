@@ -21,7 +21,7 @@
         <strong>{{this.question}}</strong> <br>
         {{#each this.answers}}
         <div>
-        <input type="radio" name="{{../id}}" value={{this}} required>
+        <input type="radio" name="{{../id}}" value={{@index}} required>
         <label>{{this}}</label><br>
         </div>
         {{/each}}

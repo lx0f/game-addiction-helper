@@ -34,9 +34,16 @@
         questionCount++;
         //alert(questionCount);
         //set question limit
+        
+        document.getElementById("clearMe").innerHTML = "<label></label>";
+        if(questionCount > 3){
+            alert("Max number of questions reached")
+        } else{
         document.getElementById("add_answers")
-                        .insertAdjacentHTML("afterend", `<input type="text" class="answer" name="answer${questionCount}"/> <br>`);
+                        .insertAdjacentHTML("afterend", `<label>Answer ${questionCount}</label><input type="text" class="answer" name="answer${questionCount}"/> <label>Remark</label><input type="text" class="remark" name="answer${questionCount}"/><br>`);
         document.getElementById("NumberOfAnswers").value = questionCount;
+        }
+        
         
     }
 </script>

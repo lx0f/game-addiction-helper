@@ -25,8 +25,8 @@ router.get('/questionnaire', (req: Request, res: Response) => {
 });
 
 router.post('/', (req:Request, res:Response) => { //questionnaire submission
-    var weightage = 0
-    const addiction_result: string[] = []
+    
+    
     //list of printables on result page, to be looped through
 
     //questions for algo
@@ -36,39 +36,44 @@ router.post('/', (req:Request, res:Response) => { //questionnaire submission
     //add questions here when necessary
     async function getCalc(req: Request, res:Response)
     {
+        var weightage = 0
+        const addiction_result: string[] = [] //only want to be accessed in function
         try{
             const result = await Question.find({}).lean()
-            
+            for(let i in result)
+            {
+                
+            }
             //build algorithm here
             //q0
-            if (req.body.q0 == "More") {
-                weightage +=50
-                addiction_result.push("More answered")
-            } else if (req.body.q0 == "Less")
-            {
-                weightage -=20
-                addiction_result.push("Less answered")
-            }
+            // if (req.body.q0 == "More") {
+            //     weightage +=50
+            //     addiction_result.push("More answered")
+            // } else if (req.body.q0 == "Less")
+            // {
+            //     weightage -=20
+            //     addiction_result.push("Less answered")
+            // }
             
-            //q1
-            if (req.body.q1 == "Yes"){
-                weightage += 40
-                addiction_result.push("yes answered")
-            } else if (req.body.q1 == "Sometimes")
-            {
-                weightage +=20
-                addiction_result.push("Sometimes answered")
-            }
+            // //q1
+            // if (req.body.q1 == "Yes"){
+            //     weightage += 40
+            //     addiction_result.push("yes answered")
+            // } else if (req.body.q1 == "Sometimes")
+            // {
+            //     weightage +=20
+            //     addiction_result.push("Sometimes answered")
+            // }
 
-            //q2
-            if (req.body.q2 == "Poor" || req.body.q2 == "Disappointing"){
-                weightage += 50
-                addiction_result.push("Poor answered")
-            } else if (req.body.q2 == "Excellent")
-            {
-                weightage -= 30
-                addiction_result.push("Excellent answered")
-            }
+            // //q2
+            // if (req.body.q2 == "Poor" || req.body.q2 == "Disappointing"){
+            //     weightage += 50
+            //     addiction_result.push("Poor answered")
+            // } else if (req.body.q2 == "Excellent")
+            // {
+            //     weightage -= 30
+            //     addiction_result.push("Excellent answered")
+            // }
             var addiction = "Pending Addiction Status"
             if (weightage > 20)
             {
@@ -95,9 +100,11 @@ router.post('/add', (req:Request, res:Response) => {
     //add logic to consolidate all answers into an array before passing to mongodb
     const NumberOfAnswers = req.body.NumberOfAnswers;
     const answerArray: any[] = [];
+    const remarkArray: any[] = [];
     for(let i = 1; i <= NumberOfAnswers; i++)
     {
         answerArray.push(req.body["answer" + i])
+        remarkArray.push(req.body["remark" + i])
     }
 
     async function getAllQuestions(req: Request, res:Response)
@@ -110,9 +117,10 @@ router.post('/add', (req:Request, res:Response) => {
                 count++
             }
             const question = new Question({
-                id: "q"+count,
+                id: "q" + count,
                 question: req.body.question,
-                answers: answerArray
+                answers: answerArray,
+                remarks: remarkArray
             })
             question.save().then((result: any) => {
                 res.redirect('question/questionnaire')
