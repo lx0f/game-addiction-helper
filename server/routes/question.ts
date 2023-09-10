@@ -127,8 +127,9 @@ router.post('/add', (req:Request, res:Response) => {
     getAllQuestions(req,res)
 })
 
-router.post("/blogs", (req,res) =>{
+
+router.post("/blogs", (req: Request,res:Response) => {
     res.redirect("/blogs")
-})
+}) 
 
 export default router;
