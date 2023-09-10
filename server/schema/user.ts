@@ -6,7 +6,6 @@ export interface IUser extends PassportLocalDocument, Express.User {
     password : string,
     gaming_duration_limit_ms: number,
     coins: number,
-    claimed_coins_today: string,
     claimed_coins_date: Date
 }
 
@@ -17,7 +16,6 @@ const userSchema = new Schema({
     password : String,
     gaming_duration_limit_ms: Number,
     coins: Number,
-    claimed_coins_today: String,
     claimed_coins_date: Date
 });
 

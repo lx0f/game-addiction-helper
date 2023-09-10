@@ -25,7 +25,17 @@ router.post('/log', checkAuthenticated, (req: Request, res: Response) => {
 });
 
 router.get('/setlimit', checkAuthenticated, async (req: Request, res: Response) => {
-    return res.render('setLimit');
+    const filter = { username : req.user!.username }
+    const currentUser = await  User.findOne(filter)
+    var gaming_duration_limit : String
+
+    if (currentUser?.gaming_duration_limit_ms) {
+        gaming_duration_limit = '' + currentUser?.gaming_duration_limit_ms
+    } else {
+        gaming_duration_limit = 'No limit set'
+    }
+
+    return res.render('setLimit', { gaming_duration_limit_ms :  gaming_duration_limit});
 });
 
 router.post('/setlimit', checkAuthenticated, async (req: Request, res: Response) => {
@@ -39,33 +49,53 @@ router.post('/setlimit', checkAuthenticated, async (req: Request, res: Response)
     }
 
     currentUser.save()
-    return res.render('setLimit');
+    return res.redirect('setLimit');
 });
 
 router.get('/dailyreward', checkAuthenticated, async (req: Request, res: Response) => {
-    return res.render('dailyReward')
+    const filter = { username : req.user!.username }
+    const currentUser = await  User.findOne(filter)
+    return res.render('dailyReward', { coins : currentUser?.coins })
 })
 
 router.post('/dailyreward', checkAuthenticated, async (req: Request, res: Response) => {
     const filter = { username : req.user!.username }
     const currentUser = await  User.findOne(filter)
+    const currentDateTime = new Date()
+    const currentDate = new Date(currentDateTime.toDateString())
 
     if (_.isNull(currentUser)) {
         return res.redirect('/users/logout');
     }
-
-    if (currentUser.claimed_coins_today == 'yes') {
+    
+    if (formatDate(currentUser.claimed_coins_date) === formatDate(currentDate)) {
         return res.redirect('nocoins')
+        
     } else {
         currentUser.coins = currentUser.coins + 10
-        currentUser.claimed_coins_today = 'yes'
+        currentUser.claimed_coins_date = currentDate
         currentUser.save()
         return res.redirect('dailyreward')
     }
+    
 })
 
 router.get('/nocoins', checkAuthenticated, async (req: Request, res: Response) => {
     res.render('noCoins')
 })
+
+function formatDate(date: Date) {
+    const newDate = new Date(date)
+    var month = '' + (newDate.getMonth() + 1)
+    var day = '' + newDate.getDate()
+    var year = newDate.getFullYear()
+
+      if (month.length < 2) 
+        month = '0' + month;
+      if (day.length < 2) 
+        day = '0' + day;
+    
+      return [year, month, day].join('-');
+    }
 
 export default router;
