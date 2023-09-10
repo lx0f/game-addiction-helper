@@ -24,7 +24,10 @@ router.post('/log', checkAuthenticated, (req: Request, res: Response) => {
 });
 
 router.get('/setlimit', checkAuthenticated, async (req: Request, res: Response) => {
-    return res.render('setLimit');
+    const filter = { username : req.user!.username }
+    const currentUser = await  User.findOne(filter)
+
+    return res.render('setLimit', { gaming_duration_limit_ms : currentUser?.gaming_duration_limit_ms });
 });
 
 router.post('/setlimit', checkAuthenticated, async (req: Request, res: Response) => {
@@ -44,7 +47,9 @@ router.post('/setlimit', checkAuthenticated, async (req: Request, res: Response)
 });
 
 router.get('/dailyreward', checkAuthenticated, async (req: Request, res: Response) => {
-    return res.render('dailyReward')
+    const filter = { username : req.user!.username }
+    const currentUser = await  User.findOne(filter)
+    return res.render('dailyReward', { coins : currentUser?.coins })
 })
 
 router.post('/dailyreward', checkAuthenticated, async (req: Request, res: Response) => {

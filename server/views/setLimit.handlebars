@@ -1,8 +1,8 @@
 <h1>Set Your Gaming Hour Limit</h1>
-
+<h2>Current gaming hour limit: {{ gaming_duration_limit_ms }}</h2>
 <form action="/tracker/setlimit" method="post">
     <div class="form-group mb-3">
-        <label>Gaming Hour Limit: </label>
+        <label>Set Gaming Hour Limit: </label>
         <input type="number" class="form-control" placeholder="hours" name="gamingHourLimit" required>
         <div class="d-grid mt-3">
         <button type="submit" class="btn btn-primary form-control">Submit</button>
