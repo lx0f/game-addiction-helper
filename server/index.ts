@@ -7,7 +7,7 @@ import { connect } from 'mongoose';
 import path from 'path';
 import _ from "lodash";
 
-import User from './schema/user';
+import User, { IUser } from './schema/user';
 import {
     blogsRouter,
     errorsRouter,
@@ -45,7 +45,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
+passport.serializeUser(User.serializeUser() as any); // FIXME don't use any
 passport.deserializeUser(User.deserializeUser());
 
 // Register routes
