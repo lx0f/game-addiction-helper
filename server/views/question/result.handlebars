@@ -9,8 +9,18 @@
     <div>
     <h1>YOU ARE {{result}}!</h1>
     </div>
-    <form action="" method="post"> 
-        <p>button below me redirects to blogs</p>
+    <div>
+        <form>
+        <h2>Answers</h2>
+    {{#each result_array}}
+        
+        <p>{{this}}</p>
+
+        {{/each}}
+        </div>
+        </form>
+    <form action="/question/blogs" method="post"> 
+        
     <button>See how others got over their addiction</button>
     </form>
 </body>
