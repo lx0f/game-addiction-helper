@@ -11,9 +11,14 @@ const questionSchema = new Schema({
     answers: {
         type: Array,
         required: true
+    },
+    remarks: {
+        type: Array,
+        required: false
     }
 }, {timestamps: true})
 
 const Question = model("Questions", questionSchema)
 
 export default Question;
+
