@@ -11,6 +11,8 @@
         "sync": "concurrently \"npm run sync:blogs\" \"npm run sync:views\" \"npm run sync:questions\" \"npm run sync:posts\"",
         "sync:blogs": "rm -rf dist/blogs && mkdir -p dist/blogs && cp server/blogs/* dist/blogs/",
         "sync:views": "rm -rf dist/views && mkdir -p dist/views && cp -r server/views/* dist/views/",
+        "sync:views-windows": "rmdir /s /q \"dist/views\" && mkdir \"dist/view\"s && xcopy \"server/views\" \"dist/views\" /E",
+        "sync:test": "rmdir dist/test && mkdir dist/test && xcopy server/test dist/test",
         "sync:questions": "ts-node server/scripts/initQuestions.ts",
         "sync:posts": "ts-node server/scripts/initPosts.ts"
     },

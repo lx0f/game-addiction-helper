@@ -6,7 +6,8 @@ import Question from "../schema/question";
 interface IQuestion {
     id: string,
     question: string,
-    answers: Array<String>
+    answers: Array<String>,
+    remarks: Array<String>
 }
 
 const config = getEnvConfig();
